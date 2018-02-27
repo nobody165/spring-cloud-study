@@ -71,31 +71,10 @@ public class ExceptionStatus {
     public static int DEAL_ERROR = 1006;
     @Description(value = "找不到对应的数据", key = 1007)
     public static int DATA_IS_NULL = 1007;
-    
-    /*
-     * 用户 code范围3000-6000
-     */
-    @Description(value = "用户名和密码不能为空", key = 3000)
-    public static int USERNAME_PASSWORD_IS_NULL = 3000;
-    @Description(value = "用户不存在", key = 3001)
-    public static int USER_NOT_EXIST = 3001;
-    @Description(value = "用户已被禁用", key = 3002)
-    public static int USER_DISABLE_UNUSEABLE = 3002;
-    @Description(value = "用户已被锁定", key = 3003)
-    public static int USER_ISLOCK_LOCK = 3003;
-    @Description(value = "用户已被删除", key = 3004)
-    public static int USER_DEL_YES = 3004;
-    @Description(value = "用户名或密码错误", key = 3005)
-    public static int USERNAME_PASSWORD_IS_ERROR = 3005;
-    @Description(value = "请输入手机号", key = 3006)
-    public static int USER_PHONE_NUMBER_IS_NULL = 3006;
-    @Description(value = "手机号码格式不正确", key = 3007)
-    public static int USER_PHONE_NUMBER_IS_NOT_FORMATTED_CORRECT = 3007;
-    @Description(value = "登录过期", key = 3008)
-    public static int USER_TOKEN_IS_NULL = 3008;
-    @Description(value = "用户数据异常,请联系管理员", key = 3009)
-    public static int USER_DATA_EXCEPTOPN = 3009;
-   
+    @Description(value = "长度不够", key = 1008)
+    public static int PARAM_CHAR_LENGTH_LONG = 1008;
+    @Description(value = "身份证号不符合规则！", key = 1009)
+    public static int ID_CARD_ERROR = 1009;
 
     protected static Map<Integer, String> descriptionMap = new LinkedHashMap<Integer, String>();
 
