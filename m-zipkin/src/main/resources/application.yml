@@ -1,0 +1,19 @@
+server:
+  port: 9411
+  
+spring:
+  rabbitmq:
+    host: 172.16.2.11
+    port: 5672
+    username: rabbit
+    password: passwd
+    
+  datasource:
+    url: jdbc:mysql://172.16.2.11:3306/mic_log
+    username: radlly
+    password: radlly.XU82!
+
+zipkin:
+  storage: 
+     type: mysql
+    
