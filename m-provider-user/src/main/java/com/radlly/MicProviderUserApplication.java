@@ -11,9 +11,9 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@EnableCaching // 开启缓存，需要显示的指定
-//@EnableAsync // 开启异步
-@MapperScan("com.radlly.**.mapper") // 配置扫描mapper接口的地址
+@EnableCaching 
+//@EnableAsync
+@MapperScan("com.radlly.**.mapper") 
 public class MicProviderUserApplication {
 
 	public static void main(String[] args) {

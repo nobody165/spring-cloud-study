@@ -3,27 +3,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.radlly</groupId>
-	<artifactId>mic-provider-user</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>m-provider-user</artifactId>
 	<packaging>jar</packaging>
 
 	<name>mic-provider-user</name>
 	<description>user provider</description>
  
 	<parent>  
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.3.RELEASE</version>		
-		<relativePath/> <!-- lookup parent from repository -->
+		<groupId>com.radlly</groupId>
+		<artifactId>spring-cloud-study</artifactId>
+		<version>0.0.1-SNAPSHOT</version>		
 	</parent>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>8</java.version>
-	</properties>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -102,7 +93,6 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
 	<build>
 		<plugins>
 			<plugin>
