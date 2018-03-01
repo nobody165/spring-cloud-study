@@ -10,13 +10,25 @@
 
 
  
-	<parent>  
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.3.RELEASE</version>		
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-
+	 <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.5.9.RELEASE</version>
+  </parent>
+  
+  <!-- 引入spring cloud的依赖 -->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+       <!--  <version>Camden.SR4</version> -->
+       <version>Dalston.SR5</version> 
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -35,6 +47,9 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -48,7 +63,9 @@
 		<!-- user service -->
 		<module>m-provider-user</module>
 		<!-- zipkin -->
-		<module>m-zipkin</module>		
+		<module>m-zipkin</module>
+		<!-- eureka -->
+		<module>m-eureka</module>		
     </modules>
 
 </project>

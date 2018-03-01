@@ -9,7 +9,7 @@ spring:
     password: passwd
     
   datasource:
-    url: jdbc:mysql://172.16.2.11:3306/mic_log
+    url: jdbc:mysql://172.16.2.11:3306/mic_log?useSSL=false
     username: radlly
     password: radlly.XU82!
 
