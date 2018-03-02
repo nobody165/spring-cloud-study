@@ -21,6 +21,7 @@ spring:
     sleuth: 
       sampler:
         percentage: 100.0
+        
     rabbitmq:
       host: 172.16.2.11
       port: 5672
@@ -28,7 +29,7 @@ spring:
       password: passwd
     datasource:
         name: mic_db
-        url: jdbc:mysql://172.16.2.11:3306/mic_db?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+        url: jdbc:mysql://172.16.2.11:3306/mic_db?useSSL=false&useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
         username: radlly
         password: radlly.XU82!
         # 使用druid数据源
@@ -78,7 +79,7 @@ spring:
         # 表示当borrow(引入)一个jedis实例时，最大的等待时间，如果超过等待时间(毫秒)，则直接抛出JedisConnectionException；
         max-wait: 1000
       # 连接超时时间（毫秒）
-      timeout: 20
+      timeout: 2000
 #debug: true
 # mybatis_config
 mybatis:
