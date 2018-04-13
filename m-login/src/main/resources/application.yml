@@ -1,0 +1,33 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: m-login  
+#  sleuth: 
+#    sampler:
+#      percentage: 100.0 
+#  rabbitmq:
+#    host: 172.16.2.11
+#    port: 5672
+#    username: rabbit
+#    password: passwd 
+#feign: 
+#  hystrix:  
+#    enabled: true  
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://user:password111@172.16.3.131:8761/eureka/
+#        defaultZone: http://user:password111@localhost:8761/eureka/
+  instance:
+#    ip-address: 172.16.3.131
+    prefer-ip-address: true
+#    leaseRenewalIntervalInSeconds: 10
+#    leaseExpirationDurationInSeconds: 30
+#    statusPageUrl: http://${eureka.hostname}/info
+#    healthCheckUrl: http://${eureka.hostname}/health
+#    homePageUrl: http://${eureka.hostname}/
+    instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}
+
+#logging:
+#  config: classpath:logback-spring.xml
