@@ -1,0 +1,12 @@
+server:
+  port: 8040
+  
+spring:
+  application:
+    name: m-zuul
+
+eureka:
+  client:
+    service-url:
+        defaultZone: http://user:password111@172.16.3.131:8761/eureka/
+    
