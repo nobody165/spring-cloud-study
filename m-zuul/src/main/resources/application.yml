@@ -9,4 +9,39 @@ eureka:
   client:
     service-url:
         defaultZone: http://user:password111@172.16.3.131:8761/eureka/
+
+ 
+  
+zuul:
+  sensitive-headers:
+  add-host-header: true
+  ignored-headers: aa,bb
+#  routes:
+#   m-provider-user: /user/**
+  max:
+    host:
+      connections: 500
+  host:
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+    
+logging:
+  config: classpath:logback-spring.xml
+  
+gate:
+ ignore:
+   startWith: /m-login/login
+    
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 60000
+                    ribbon:
+                        ReadTimeout: 60000
+                        ConnectTimeout: 60000
+                        MaxAutoRetries: 0
+                        MaxAutoRetriesNextServer: 1   
     
