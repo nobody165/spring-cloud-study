@@ -9,7 +9,7 @@ public class User implements Serializable{
      */
     private static final long serialVersionUID = 5231134212346077681L;
 
-    private Long uuid;
+    private Integer uuid;
 
     private String username;
 
@@ -23,12 +23,19 @@ public class User implements Serializable{
 
     private Byte status;
 
+    
+    
 
-	public Long getUuid() {
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Integer getUuid() {
 		return uuid;
 	}
 
-	public void setUuid(Long uuid) {
+	public void setUuid(Integer uuid) {
 		this.uuid = uuid;
 	}
 

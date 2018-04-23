@@ -4,9 +4,12 @@
 	<contextName>logback</contextName>
 	<!-- <logger name="org.springframework.web" level="error" />
 	<logger name="org.springboot.sample" level="error" /> -->
-	<logger name="com.alibaba.druid" level="debug" />
+	<logger name="com.alibaba.druid" level="info" />
 	<logger name="org.apache.tomcat" level="error" />
-	<logger name="org.springboot" level="debug" />
+	<logger name="org.springboot" level="info" />
+	<logger name="com.netflix.hystrix" level="debug" />
+	
+	
 		
 
 	<property name="log.path" value="D:/log/logback.log" />
@@ -33,7 +36,7 @@
 	<!--输出sql语句 -->
 	<logger name="com.radlly" level="debug" />
 
-	<root level="INFO">
+	<root level="info">
 		<appender-ref ref="STDOUT"/>
 		<appender-ref ref="FILE" />
 	</root>
