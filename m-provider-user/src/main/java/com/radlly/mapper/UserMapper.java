@@ -2,6 +2,8 @@ package com.radlly.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.radlly.entity.Bootgrid;
 import com.radlly.model.User;
 
@@ -12,6 +14,8 @@ public interface UserMapper {
 
 
     User get(Integer uuid);
+    
+    User getByName(@Param("username") String username);
 
     int updateByPrimaryKeySelective(User record);
 
@@ -25,5 +29,7 @@ public interface UserMapper {
 //    User findByUserEmail(String email);
     //查询用户列表
     List<User> queryList(Bootgrid bootgrid);
+    
+    List<User> queryList1(long companyId);
     int countAll(Bootgrid bootgrid);
 }

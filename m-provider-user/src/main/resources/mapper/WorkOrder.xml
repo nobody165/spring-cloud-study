@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.radlly.mapper.WorkOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.radlly.model.WorkOrder" >
+    <id column="uuid" property="uuid" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    uuid, code, userId, type, date
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from wo_info
+    where uuid = #{uuid,jdbcType=BIGINT}
+  </select>
+
+  <select id="queryForUserMonth"  resultMap="BaseResultMap">
+    <![CDATA[ 
+    select COUNT(*),YEAR(date) AS 'year', MONTH(date) AS 'month',userId  
+    from wo_info where userId =$(userId) and  date>=$(startDate) and date<$(endDate) 
+    GROUP BY  YEAR (date) DESC, MONTH(date) 
+	]]>
+  </select>
+  <select id="companyUsedMonth" resultType="java.util.List">
+   select date_format(date,'%Y-%m') as m 
+    from wo_info where companyId = ${companyId} GROUP BY  YEAR (date) DESC, MONTH(date) 
+  </select>
+</mapper>

@@ -1,5 +1,7 @@
 package com.radlly.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -31,5 +33,19 @@ public class UserServiceImpl implements IUserService{
 		// TODO Auto-generated method stub
 		userMapper.delete(uuid);
 	}
+
+	@Override
+	public List<User> getAll(Long companyId) {
+		// TODO Auto-generated method stub
+		return userMapper.queryList1(companyId);
+	}
+
+	@Override
+	public User getByName(String username) {
+		// TODO Auto-generated method stub
+		return userMapper.getByName(username);
+	}
+	
+	
 
 }

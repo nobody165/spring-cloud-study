@@ -13,18 +13,25 @@
   <sql id="Base_Column_List" >
     uuid, username, phoneNumber, password, regDate, lastGetPsdTime, status
   </sql>
-  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="get" resultMap="BaseResultMap"  >
     select 
     <include refid="Base_Column_List" />
     from c_user
     where uuid = #{uuid,jdbcType=BIGINT}
+  </select>
+  
+  <select id="getByName" resultMap="BaseResultMap">
+    select 
+     <include refid="Base_Column_List" />
+ 	from c_user
+    where username = #{username}
   </select>
 
   <delete id="delete" parameterType="java.lang.Integer" >
     delete from c_user
     where uuid = #{uuid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.radlly.model.User" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="userId" parameterType="com.radlly.model.User" >
     insert into c_user (uuid, username, phoneNumber, 
       password, regDate, lastGetPsdTime, 
       status)
@@ -69,6 +76,12 @@
       </otherwise>
      </choose>
      limit #{firstResult},#{maxResults}
+  </select>
+  
+  <select id="queryList1" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+     from c_user
+     where companyId = $(companyId)
   </select>
   <select id="countAll" parameterType="com.radlly.entity.Bootgrid" resultType="java.lang.Integer">
     select count(1) from c_user

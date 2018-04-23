@@ -1,35 +1,59 @@
 #server
 server:   
-  port: 8444
-  ssl:
-    key-store: classpath:test.jks
-    key-store-password: 123456
-http:
   port: 8081
+#  ssl:
+#    key-store: classpath:test.jks
+#    key-store-password: 123456
+#http:
+#  port: 8081
+  
+#eureka:
+ # client:
+  #  serviceUrl:
+   #   defaultZone: http://user:password111@172.16.2.11:8761/eureka/
+  #instance:
+   # prefer-ip-address: true
+    #leaseRenewalIntervalInSeconds: 10
+    #leaseExpirationDurationInSeconds: 30
+feign: 
+  hystrix:  
+    enabled: true 
 eureka:
   client:
-    serviceUrl:
-      defaultZone: http://user:password111@172.16.2.11:8761/eureka/
+    serviceUrl: 
+      defaultZone: http://user:password111@172.16.3.131:8761/eureka/
   instance:
+#    ip-address: 172.16.3.131
     prefer-ip-address: true
-    leaseRenewalIntervalInSeconds: 10
-    leaseExpirationDurationInSeconds: 30
+#    hostname:  ${spring.cloud.client.ipAddress}
+#    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}
+#    leaseRenewalIntervalInSeconds: 10
+#    leaseExpirationDurationInSeconds: 30
+#    statusPageUrl: http://${eureka.hostname}/info
+#    healthCheckUrl: http://${eureka.hostname}/health
+#    homePageUrl: http://${eureka.hostname}/
+
 #datasource
 spring:
     application:
       name: m-provider-user
+#    cloud:
+#     inetutils:
+#        use-only-site-local-interfaces: true
+       
     sleuth: 
       sampler:
         percentage: 100.0
         
     rabbitmq:
-      host: 172.16.2.11
+      host: 172.16.3.131
       port: 5672
       username: rabbit
       password: passwd
     datasource:
         name: mic_db
-        url: jdbc:mysql://172.16.2.11:3306/mic_db?useSSL=false&useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+        url: jdbc:mysql://172.16.3.131:3306/mic_db?useSSL=false&useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
         username: radlly
         password: radlly.XU82!
         # 使用druid数据源
@@ -63,7 +87,7 @@ spring:
     #redis
     redis:
       # Redis服务器地址
-      host: 172.16.2.11
+      host: 172.16.3.131
       # Redis服务器连接端口
       port: 6379
       # Redis服务器连接密码（默认为空）
@@ -86,3 +110,7 @@ mybatis:
     mapper-locations: classpath:mapper/**/*.xml
 logging:
     config: classpath:logback-spring.xml
+
+request:
+  unsafe: 
+    startWith: /getByName #split with ","
