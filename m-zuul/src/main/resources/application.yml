@@ -28,9 +28,9 @@ zuul:
 logging:
   config: classpath:logback-spring.xml
   
-gate:
- ignore:
-   startWith: /m-login/login
+request:
+  ignore:
+    startWith: /m-login/login,/m-login/logout
     
 hystrix:
     command:

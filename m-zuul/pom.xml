@@ -8,24 +8,25 @@
 		<version>0.0.1-SNAPSHOT</version>		
 	</parent> 
 	
+	
 	 <dependencies>
 	    <dependency>
 	      <groupId>org.springframework.cloud</groupId>
-	      <artifactId>spring-cloud-starter-zuul</artifactId>
+	      <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
 	    </dependency>
 	   <dependency>
 		 <groupId>org.springframework.cloud</groupId>
-		    <artifactId>spring-cloud-starter-eureka</artifactId>
+		    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 		<dependency>
 	      <groupId>org.springframework.cloud</groupId>
-	      <artifactId>spring-cloud-starter-feign</artifactId>
+	      <artifactId>spring-cloud-starter-openfeign</artifactId>
 	    </dependency> 
-	     <dependency>
+<!-- 	     <dependency>
 	      <groupId>org.springframework.cloud</groupId>
 	      <artifactId>spring-cloud-starter-hystrix</artifactId>
 	    </dependency>
-		  <dependency>
+ -->		  <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.33</version>

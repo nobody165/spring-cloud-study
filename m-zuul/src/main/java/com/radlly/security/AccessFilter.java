@@ -8,14 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSON;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import com.radlly.feign.LoginFeignClient;
+import com.radlly.constants.CommonConstants;
+import com.radlly.feign.TokenFeignClient;
 import com.radlly.model.AppObj;
-import com.radlly.response.InternalObj;
-import com.radlly.response.TokenErrorResponse;
-import com.radlly.utils.JsonUtils;
 
 
 /**
@@ -27,12 +24,12 @@ import com.radlly.utils.JsonUtils;
 @Component
 public class AccessFilter extends ZuulFilter {
 	private static Logger logger = LoggerFactory.getLogger(AccessFilter.class);
-    @Value("${gate.ignore.startWith}")
+    @Value("${request.ignore.startWith}")
     private String startWith;
 
 
     @Autowired
-	private LoginFeignClient loginFeignClient;
+	private TokenFeignClient tokenFeignClient;
 
     @Override
     public String filterType() {
@@ -56,7 +53,8 @@ public class AccessFilter extends ZuulFilter {
         final String requestUri = request.getRequestURI();
         boolean returnAble = false;
         String token = "";
-        
+        AppObj appObj = new AppObj(AppObj.SSUCCESS);
+        String internalToken;
         // 不进行拦截的地址
         if (isStartWith(requestUri)) {
         	returnAble = true;        	
@@ -65,18 +63,30 @@ public class AccessFilter extends ZuulFilter {
         if(!returnAble){
         	  token = request.getHeader("token");//测试暂时写死,以后加入yml
               if(token==null) {
-              	  setFailedRequest(JSON.toJSONString(new TokenErrorResponse("token is not exist!")), 200);
+//              	  setFailedRequest(JSON.toJSONString(new TokenErrorResponse("token is not exist!")), 200);
               	  ctx.setSendZuulResponse(false);  
 	              ctx.setResponseStatusCode(401);  
 	              ctx.setResponseBody("{\"result\":\"token validate faild!\"}");  
 	              ctx.getResponse().setContentType("text/html;charset=UTF-8");
 	              return null;
-              }       	
+              }  
+              appObj = tokenFeignClient.validate(token);
+              if(appObj.getCode()==AppObj.FAIL) {
+              	  ctx.setSendZuulResponse(false);  
+	              ctx.setResponseStatusCode(401);  
+	              ctx.setResponseBody(appObj.toString());  
+	              ctx.getResponse().setContentType("text/html;charset=UTF-8");
+	              return null;
+              }
         }
-        AppObj appObj = loginFeignClient.validate(token);
-        if(appObj.getCode()==AppObj.SSUCCESS) {        	
-        	InternalObj internalObj = JsonUtils.fromBean(JsonUtils.BeanToJson(appObj.getObj()), InternalObj.class);
-        	 ctx.addZuulRequestHeader(internalObj.getInternalTokenName(), internalObj.getInternalToken());
+      
+        if(returnAble||appObj.getCode()==AppObj.SSUCCESS) {   
+        	if(null!=appObj.getObj()) {
+        		internalToken = appObj.getObj().toString();
+        	}else {
+        		internalToken = tokenFeignClient.getInternalToken();
+        	}
+        	 ctx.addZuulRequestHeader(CommonConstants.TOKEN_INTERNAL, internalToken);
         }       
         return null;
     }
@@ -97,20 +107,5 @@ public class AccessFilter extends ZuulFilter {
         return flag;
     }
 
-    /**
-     * 网关抛异常
-     *
-     * @param body
-     * @param code
-     */
-    private void setFailedRequest(String body, int code) {
-    	logger.debug("Reporting error ({}): {}", code, body);
-        RequestContext ctx = RequestContext.getCurrentContext();
-        ctx.setResponseStatusCode(code);
-        if (ctx.getResponseBody() == null) {
-            ctx.setResponseBody(body);
-            ctx.setSendZuulResponse(false);
-        }
-    }
 
 }
