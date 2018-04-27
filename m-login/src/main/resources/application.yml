@@ -7,7 +7,7 @@ spring:
     sampler:
       percentage: 100.0 
   rabbitmq:
-    host: 172.16.2.11
+    host: 172.16.3.131
     port: 5672
     username: rabbit
     password: passwd 
@@ -34,6 +34,8 @@ spring:
 feign: 
   hystrix:  
     enabled: true  
+hystrix: 
+  shareSecurityContext: true
 eureka:
   client:
     serviceUrl:
@@ -47,7 +49,7 @@ eureka:
 #    statusPageUrl: http://${eureka.hostname}/info
 #    healthCheckUrl: http://${eureka.hostname}/health
 #    homePageUrl: http://${eureka.hostname}/
-    instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}
+#    instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}
 
 logging:
   config: classpath:logback-spring.xml
@@ -80,5 +82,9 @@ token:
     name: accessToken
     refresh: 30 # min
   login:
-    name: login  
+    name: login
+
+request:
+  ignore:
+    startWith: /login,/logout
   

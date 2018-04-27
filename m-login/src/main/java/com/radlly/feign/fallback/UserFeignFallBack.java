@@ -11,13 +11,13 @@ public class UserFeignFallBack implements UserFeignClient{
 	@Override
 	public AppObj get(Integer id) {
 		// TODO Auto-generated method stub
-		return new AppObj("user provider is donw. please contract administrator!");
+		return new AppObj("get user provider error. please see the log!");
 	}
 
 	@Override
 	public AppObj getByName(String username, String password) {
 		// TODO Auto-generated method stub
-		return new AppObj("user provider is donw. please contract administrator!");
+		return new AppObj("get user provider error. please see the log!");
 	}
 
 }
