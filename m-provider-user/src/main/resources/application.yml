@@ -27,7 +27,7 @@ eureka:
     prefer-ip-address: true
 #    hostname:  ${spring.cloud.client.ipAddress}
 #    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
-    instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}
+#    instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}
 #    leaseRenewalIntervalInSeconds: 10
 #    leaseExpirationDurationInSeconds: 30
 #    statusPageUrl: http://${eureka.hostname}/info
@@ -112,5 +112,5 @@ logging:
     config: classpath:logback-spring.xml
 
 request:
-  unsafe: 
-    startWith: /getByName #split with ","
+  ignore: 
+    startWith:  #split with ","

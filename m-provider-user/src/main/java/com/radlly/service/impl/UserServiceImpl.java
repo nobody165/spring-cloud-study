@@ -20,15 +20,15 @@ public class UserServiceImpl implements IUserService{
 	public int insert(User user) {
 		return userMapper.insert(user);		
 	}
-
+//由于spring boot 2.0 使用letuce  暂时代码还没有update 缓存
 //	@Cacheable(value="users#${select.cache.timeout:3600}#${select.cache.refresh:3599}",key = "'uuid_'+#uuid")
-	@Cacheable(value="users#${select.cache.timeout:3600}",key = "'uuid_'+#uuid")
+//	@Cacheable(value="users#${select.cache.timeout:3600}",key = "'uuid_'+#uuid")
 	public User get(Integer uuid) {
 		// TODO Auto-generated method stub
 		return userMapper.get(uuid);
 	}
 	
-	@CacheEvict(value="users",key = "'uuid_'+#uuid")  
+//	@CacheEvict(value="users",key = "'uuid_'+#uuid")  
 	public void delete(Integer uuid) {
 		// TODO Auto-generated method stub
 		userMapper.delete(uuid);

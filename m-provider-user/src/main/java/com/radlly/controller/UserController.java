@@ -1,5 +1,8 @@
 package com.radlly.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +12,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import com.radlly.constants.CommonConstants;
 import com.radlly.model.AppObj;
 import com.radlly.model.User;
 import com.radlly.service.IUserService;
 
-import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @RestController
@@ -24,9 +29,8 @@ public class UserController {
 	private static Logger logger = LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	private IUserService userService;	
-   
+
     
-	@ApiOperation(value="新增用户", notes = "电话号码注册")// 使用该注解描述接口方法信息  
 	@PostMapping("/user/insert")
 	@ResponseBody
 	public AppObj insert(@ApiParam(required = true, name="phoneNumber", value = "电话号码")
@@ -77,6 +81,14 @@ public class UserController {
 		@ResponseBody
 		public AppObj getByName(@RequestParam  String username,@RequestParam String password) {
 //			loginTokenFeignClient.getInternalToken();
+		  
+		  ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
+			        .getRequestAttributes();
+			        HttpServletRequest request = attributes.getRequest();
+			        String internalToken= request.getHeader(CommonConstants.TOKEN_INTERNAL);
+			        if(!StringUtils.isBlank(internalToken)) {
+			        	logger.debug("in getByName::internal token is "+internalToken);
+			        }
 			User user = userService.getByName(username);		
 			if(null!=user) {
 				if(password.equals(user.getPassword())){
