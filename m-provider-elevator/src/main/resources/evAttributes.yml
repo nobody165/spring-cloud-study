@@ -1,0 +1,26 @@
+ev:
+  attributes:
+    usefor: 用途
+    inspectionOrg: 电梯检验机构	
+    deviceNumber: 设备号
+    manufacturer: 制造单位
+    productionDate: 制造日期
+    productionNumber: 产品编号
+    modelNumber: 型号
+    nominalSpeed: 名义速度
+    nominalWidth: 名义宽度
+    inclinationAngle: 倾斜角
+    transforAbility: 传输能力
+    liftingHeight: 提升高度
+    length: 使用区段长度
+    power: 主机功率
+    floors: 层
+    station: 站
+    door: 门
+    maxLoad: 额定载重
+    speedUp: 额定速度-上行
+    speedDown: 额定速度-下行
+    hydraulicCylinder: 油缸数量
+    jackingType: 顶升形式
+    actuationForm: 驱动方式
+    speed: 额定速度

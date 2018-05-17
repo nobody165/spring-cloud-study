@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.radlly.mapper.ElevatorMapper" >
+  <resultMap id="BaseResultMap" type="com.radlly.model.ElevatorInfo" >
+    <id column="uuid" property="uuid" jdbcType="BIGINT" />
+    <result column="buildAddress" property="buildAddress" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+    <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+    <result column="evCode" property="evCode" jdbcType="VARCHAR" />
+    <result column="regCode" property="regCode" jdbcType="VARCHAR" />
+    <result column="evOrder" property="evOrder" jdbcType="VARCHAR" />
+    <result column="brand" property="brand" jdbcType="VARCHAR" />
+    <result column="evType" property="evType" jdbcType="VARCHAR" />
+    <result column="del" property="del" jdbcType="BIGINT" />
+    <result column="createBy" property="createBy" jdbcType="VARCHAR" />
+     <result column="obj" property="obj" jdbcType="VARCHAR" /> 
+  </resultMap>
+  <sql id="Base_Column_List" >
+   	 uuid, buildAddress, latitude, longitude, evCode, regCode, evOrder,brand,evType,del,createBy,obj
+  </sql>
+  <select id="get" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from ev_info
+    where uuid = #{uuid}
+  </select>
+  
+  <insert id="insert" parameterType="com.radlly.model.ElevatorInfo" >
+   <![CDATA[
+    insert into ev_info (  buildAddress, latitude, longitude, evCode, regCode, evOrder,brand,evType,del,createBy,obj)
+    values ( #{buildAddress}, #{latitude},#{longitude}, #{evCode}, #{regCode}, 
+      #{evOrder},#{brand},#{evType},#{del},#{createBy},CONVERT(#{jsonObj} using utf8mb4))
+       ]]>
+  </insert>
+</mapper>
