@@ -1,21 +1,19 @@
 package com.radlly.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.alibaba.fastjson.JSON;
+import java.util.Date;
 
 import lombok.Data;
 
 @Data
 public class ElevatorInfo extends BaseObject{
 	
-	public final static int DEL_TRUE = 0;
-	public final static int DEL_FALSE = 1;
+	public final static int DEL_FALSE = 0;
+	public final static int DEL_TRUE = 1;
 	/**
 	 * necessary attrs
 	 */
 	private String buildAddress;// 所在地址
+	private String propertyCom;
 	private Double latitude;
 	private Double longitude;
 	private String evCode;//电梯号
@@ -25,6 +23,7 @@ public class ElevatorInfo extends BaseObject{
 	private String evType;// 类型(直梯，扶梯，液压梯)
 	private Integer del = DEL_FALSE;
 	private String	createBy;
+	private Date	createAt;
 	
 	
 	

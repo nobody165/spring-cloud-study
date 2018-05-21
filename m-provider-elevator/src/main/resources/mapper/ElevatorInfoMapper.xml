@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.radlly.model.ElevatorInfo" >
     <id column="uuid" property="uuid" jdbcType="BIGINT" />
     <result column="buildAddress" property="buildAddress" jdbcType="VARCHAR" />
+    <result column="propertyCom" property="propertyCom" jdbcType="VARCHAR" />
     <result column="latitude" property="latitude" jdbcType="DOUBLE" />
     <result column="longitude" property="longitude" jdbcType="DOUBLE" />
     <result column="evCode" property="evCode" jdbcType="VARCHAR" />
@@ -13,10 +14,11 @@
     <result column="evType" property="evType" jdbcType="VARCHAR" />
     <result column="del" property="del" jdbcType="BIGINT" />
     <result column="createBy" property="createBy" jdbcType="VARCHAR" />
-     <result column="obj" property="obj" jdbcType="VARCHAR" /> 
+    <result column="createAt" property="createAt" jdbcType="DATE" />
+    <result column="obj" property="obj" jdbcType="VARCHAR" /> 
   </resultMap>
   <sql id="Base_Column_List" >
-   	 uuid, buildAddress, latitude, longitude, evCode, regCode, evOrder,brand,evType,del,createBy,obj
+   	 uuid, propertyCom, buildAddress, latitude, longitude, evCode, regCode, evOrder,brand,evType,del,createBy,createAt,obj
   </sql>
   <select id="get" resultMap="BaseResultMap"  >
     select 
@@ -27,9 +29,48 @@
   
   <insert id="insert" parameterType="com.radlly.model.ElevatorInfo" >
    <![CDATA[
-    insert into ev_info (  buildAddress, latitude, longitude, evCode, regCode, evOrder,brand,evType,del,createBy,obj)
-    values ( #{buildAddress}, #{latitude},#{longitude}, #{evCode}, #{regCode}, 
-      #{evOrder},#{brand},#{evType},#{del},#{createBy},CONVERT(#{jsonObj} using utf8mb4))
+    insert into ev_info ( propertyCom, buildAddress, latitude, longitude, evCode, regCode, evOrder,brand,evType,del,createBy,createAt,obj)
+    values (#{propertyCom}, #{buildAddress}, #{latitude},#{longitude}, #{evCode}, #{regCode}, 
+      #{evOrder},#{brand},#{evType},#{del},#{createBy},#{createAt},CONVERT(#{jsonObj} using utf8mb4))
        ]]>
   </insert>
+  
+  <select id="getPage" resultMap="BaseResultMap"  parameterType="com.radlly.model.ElevatorInfo" >
+    select uuid, propertyCom, buildAddress, latitude, longitude, evCode, regCode, evOrder,brand,evType
+    from ev_info
+    <where>
+     <if test="null!=buildAddress and buildAddress!=''">
+		 and buildAddress like CONCAT('%',#{buildAddress},'%')
+	 </if>
+	 <if test="null!=propertyCom">
+		 and propertyCom like CONCAT('%',#{propertyCom},'%' )
+	 </if>
+	 <if test="null!=evCode">
+		 and ev.evCode like CONCAT('%',#{evCode},'%' )
+	 </if>
+	 <if test="null!=regCode">
+		 and regCode like CONCAT('%',#{regCode},'%' )
+	 </if>
+	  <if test="null!=evOrder">
+		 and regCode like CONCAT('%',#{evOrder},'%' )
+	 </if>
+	  <if test="null!=brand">
+		 and regCode like CONCAT('%',#{brand},'%' )
+	 </if> <if test="null!=evType">
+		 and regCode like CONCAT('%',#{evType},'%' )
+	 </if>
+	    and  del = 0 limit #{pageStart} , #{pageEnd}
+	 </where>
+  </select>
+  
+  <select id="findUseForEvs" resultMap="BaseResultMap" >
+   SELECT  uuid, propertyCom, buildAddress, latitude, longitude, evCode, regCode, evOrder,brand,evType
+    FROM ev_info 
+	<where>
+		del=0 and JSON_EXTRACT(obj,'$.usefor') like CONCAT('%',#{usefor},'%' );
+	</where>
+  
+  </select>
+  
+ 
 </mapper>
