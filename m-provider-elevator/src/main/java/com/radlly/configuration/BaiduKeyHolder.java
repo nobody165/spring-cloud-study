@@ -2,6 +2,7 @@ package com.radlly.configuration;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Component;
 import com.radlly.model.Location;
 import com.radlly.utils.BaiduLocationUtil;
 
-import io.netty.util.internal.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
 @Component
@@ -22,7 +22,7 @@ public class BaiduKeyHolder {
 	@Getter @Setter private List<String> keys ;  
 	
 	private String availableKey;
-
+ 
 	public String refreshAvailableKey() {
 		BaiduLocationUtil util = new BaiduLocationUtil();		
 		for(String key:keys){
@@ -39,7 +39,7 @@ public class BaiduKeyHolder {
 	}
 
 	public String getAvailableKey() {
-		if(StringUtil.isNullOrEmpty(availableKey))refreshAvailableKey();
+		if(StringUtils.isBlank(availableKey))refreshAvailableKey();
 		return availableKey;
 	}
 

@@ -11,8 +11,17 @@
   	 <dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-web</artifactId>
+		 <exclusions>
+            <exclusion>    
+                <groupId>org.springframework.boot</groupId>    
+                <artifactId>spring-boot-starter-logging</artifactId>    
+            </exclusion>    
+      	 </exclusions>  
 	</dependency>
-
+ 	 <dependency>   
+	        <groupId>org.springframework.boot</groupId>    
+	        <artifactId>spring-boot-starter-log4j2</artifactId>    
+	    </dependency>
 	<dependency>
 		<groupId>org.mybatis.spring.boot</groupId>
 		<artifactId>mybatis-spring-boot-starter</artifactId>
@@ -63,15 +72,28 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.31</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20180130</version>
+</dependency>
+		
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
-		</dependency>
+		</dependency> -->
+		
+		<dependency> 
+	      <groupId>org.springframework.boot</groupId> 
+	      <artifactId>spring-boot-starter-test</artifactId>
+	      <scope>test</scope> 
+	    </dependency> 
    </dependencies>
   
 

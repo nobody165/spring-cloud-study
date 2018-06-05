@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.radlly.configuration.EvAttributes;
 import com.radlly.model.AppObj;
 import com.radlly.model.ElevatorInfo;
+import com.radlly.model.Location;
 import com.radlly.service.IElevatorService;
+import com.radlly.utils.BaiduLocationUtil;
 
 @RestController
 public class ElevatorController {
@@ -31,7 +34,8 @@ public class ElevatorController {
 	private EvAttributes evAttributes;
 	@Autowired
 	private IElevatorService elevatorService;
-	
+	@Autowired
+	private BaiduLocationUtil baiduLocationUtil;
 	@GetMapping("/ev/attributes")
 	@ResponseBody
 	public AppObj attributes() {
@@ -45,10 +49,21 @@ public class ElevatorController {
 	@PostMapping("/ev/addEv")
 	@ResponseBody
 	public AppObj addEv(@RequestBody ElevatorInfo elevatorInfo) {	
-		elevatorInfo.setCreateAt(new Date());
-		if(!elevatorService.save(elevatorInfo))
-		 return new AppObj(AppObj.FAIL);
-		return new AppObj();
+		if(StringUtils.isBlank(elevatorInfo.getBuildAddress())) {
+			logger.debug("save elevatorInfo faild, buildAddress is null : "+elevatorInfo);
+			return new AppObj("buildAddress can not be null!");
+		}
+		if(null==elevatorInfo.getLatitude()||null==elevatorInfo.getLongitude()) {
+			Location l = baiduLocationUtil.getLngAndLat(elevatorInfo.getBuildAddress());
+			if(Location.CODE_SUCCESS==l.getCode()) {
+				elevatorInfo.setLatitude(l.getLat());
+				elevatorInfo.setLongitude(l.getLng());
+			}else {
+				logger.debug("save ev faild."+elevatorInfo.toString());
+				return new AppObj("couldn't found location with lat:"+elevatorInfo.getLatitude()+" and lng:"+elevatorInfo.getLongitude());
+			}
+		}
+		return elevatorService.save(elevatorInfo);
 	}
 	
 	@GetMapping("/ev/get")
@@ -63,10 +78,11 @@ public class ElevatorController {
 		return new AppObj(elevatorService.getPage(elevatorInfo));
 	}
 	
-	@GetMapping("/ev/findBrandEvs")
+	
+	@GetMapping("/ev/findUseForEvs")
 	@ResponseBody
-	public AppObj findBrandEvs(@RequestParam String usefor) {
-		return new AppObj(elevatorService.findUseForEvs(usefor));
+	public AppObj findUseForEvs(@RequestParam String usefor) {
+		return new AppObj(elevatorService.findUseForEvs(usefor,0,10));
 	}
 	
 	

@@ -3,6 +3,12 @@ package com.radlly.model;
 import java.util.Date;
 
 import lombok.Data;
+/**
+ * 
+ * @author radlly.xu
+ * default page attribute are start:0 and size:10
+ *
+ */
 
 @Data
 public class ElevatorInfo extends BaseObject{
@@ -21,12 +27,7 @@ public class ElevatorInfo extends BaseObject{
 	private String evOrder;//梯号
 	private String brand;// 品牌
 	private String evType;// 类型(直梯，扶梯，液压梯)
-	private Integer del = DEL_FALSE;
-	private String	createBy;
-	private Date	createAt;
-	
-	
-	
+	private Integer del = DEL_FALSE;	
 }
 
 

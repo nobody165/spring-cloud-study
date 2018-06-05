@@ -7,7 +7,7 @@ feign:
 eureka:
   client:
     serviceUrl: 
-      defaultZone: http://user:password111@172.16.2.131:8761/eureka/
+      defaultZone: http://user:password111@172.16.3.131:8761/eureka/
   instance:
 #    ip-address: 172.16.3.131
     prefer-ip-address: true
@@ -20,7 +20,7 @@ spring:
 #     inetutils:
 #        use-only-site-local-interfaces: true
     zipkin:
-      base-url: http://172.16.2.131:9411   
+      base-url: http://172.16.3.131:9411   
     sleuth: 
       sampler:
         probability: 1
@@ -32,7 +32,7 @@ spring:
 #      password: passwd
     datasource:
         name: mic_db
-        url: jdbc:mysql://172.16.2.131:3306/mic_db?useSSL=false&useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+        url: jdbc:mysql://172.16.3.131:3306/mic_db?useSSL=false&useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
         username: radlly
         password: radlly.XU82!
         # 使用druid数据源
@@ -67,8 +67,9 @@ spring:
 # mybatis_config
 mybatis:
     mapper-locations: classpath:mapper/**/*.xml
+    config-location: classpath:mybatis.xml
 logging:
-    config: classpath:logback-spring.xml
+    config: classpath:log4j2.xml
 
 request:
   ignore: 
