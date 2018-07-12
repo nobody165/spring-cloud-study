@@ -20,5 +20,8 @@ public interface ElevatorMapper {
 	List<ElevatorInfo> getPage(ElevatorInfo elevatorInfo);
 		
 	List<ElevatorInfo> findUseForEvs(@Param("usefor")String usefor,@Param("pageStart")int pageStart,@Param("pageEnd")int pageEnd);
+	
+	
+	void insertBatch(@Param("list")List<ElevatorInfo> evs);
 
 }

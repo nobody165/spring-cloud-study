@@ -8,6 +8,8 @@ import com.radlly.model.ElevatorInfo;
 public interface IElevatorService {
 	
 	public AppObj save(ElevatorInfo elevatorInfo);
+	
+	public void insertBatch(List<ElevatorInfo> evs);
 
 	public ElevatorInfo get(long uuid);
 	
@@ -15,4 +17,7 @@ public interface IElevatorService {
 	
 	
 	public List<ElevatorInfo> findUseForEvs(String usefor,int pageStart,int pageEnd);
+	
+	public void batchInsertJDBC(List<ElevatorInfo> evs);
+	
 }

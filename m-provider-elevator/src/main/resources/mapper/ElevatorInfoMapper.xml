@@ -13,6 +13,7 @@
     <result column="brand" property="brand" jdbcType="VARCHAR" />
     <result column="evType" property="evType" jdbcType="VARCHAR" />
     <result column="del" property="del" jdbcType="BIGINT" />
+    <result column="createAt" property="createAt" jdbcType="TIMESTAMP" />
     <result column="obj" property="obj" jdbcType="VARCHAR" /> 
   </resultMap>
   <sql id="Base_Column_List" >
@@ -27,11 +28,19 @@
   
   <insert id="insert" parameterType="com.radlly.model.ElevatorInfo" >
    <![CDATA[
-    insert into ev_info (uuid,propertyCom, buildAddress, latitude, longitude, evCode, regCode, evOrder,brand,evType,del,obj)
+    insert into ev_info (uuid,propertyCom, buildAddress, latitude, longitude, evCode, regCode, evOrder,brand,evType,createAt,del,obj)
     values (#{uuid},#{propertyCom}, #{buildAddress}, #{latitude},#{longitude}, #{evCode}, #{regCode}, 
-      #{evOrder},#{brand},#{evType},#{del},CONVERT(#{jsonObj} using utf8mb4))
+      #{evOrder},#{brand},#{evType},#{createAt},#{del},CONVERT(#{jsonObj} using utf8mb4))
        ]]>
   </insert>
+  
+   <insert id ="insertBatch" parameterType="java.util.List">
+     insert into ev_info (uuid,propertyCom, buildAddress, latitude, longitude, evCode, regCode, evOrder,brand,evType,createAt,del,obj) values 
+        <foreach collection ="list" item="item" index= "index" separator =",">
+           (#{item.uuid},#{item.propertyCom}, #{item.buildAddress}, #{item.latitude},#{item.longitude}, #{item.evCode}, #{item.regCode}, 
+ 		 #{item.evOrder},#{item.brand},#{item.evType},#{item.createAt},#{item.del},CONVERT(#{item.jsonObj} using utf8mb4))
+        </foreach >
+   </insert>
   
   <select id="getPage" resultMap="BaseResultMap"  parameterType="com.radlly.model.ElevatorInfo" >
     select uuid, propertyCom, buildAddress, latitude, longitude, evCode, regCode, evOrder,brand,evType

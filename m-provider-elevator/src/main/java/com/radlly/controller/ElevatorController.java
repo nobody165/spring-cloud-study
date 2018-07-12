@@ -1,11 +1,11 @@
 package com.radlly.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +24,7 @@ import com.radlly.model.AppObj;
 import com.radlly.model.ElevatorInfo;
 import com.radlly.model.Location;
 import com.radlly.service.IElevatorService;
+import com.radlly.taskExcutor.EvInfoInsert;
 import com.radlly.utils.BaiduLocationUtil;
 
 @RestController
@@ -35,7 +36,10 @@ public class ElevatorController {
 	@Autowired
 	private IElevatorService elevatorService;
 	@Autowired
-	private BaiduLocationUtil baiduLocationUtil;
+	private BaiduLocationUtil baiduLocationUtil;	
+	@Autowired
+	private EvInfoInsert evInfoInsert;
+	
 	@GetMapping("/ev/attributes")
 	@ResponseBody
 	public AppObj attributes() {
@@ -83,6 +87,16 @@ public class ElevatorController {
 	@ResponseBody
 	public AppObj findUseForEvs(@RequestParam String usefor) {
 		return new AppObj(elevatorService.findUseForEvs(usefor,0,10));
+	}
+	
+	@GetMapping("/ev/testBatch")
+	@ResponseBody
+	public AppObj testBatch() {
+		ArrayBlockingQueue<List<ElevatorInfo>> q = new ArrayBlockingQueue<List<ElevatorInfo>>(5);	
+		evInfoInsert.evInfoProducer(q, 50000);	
+		evInfoInsert.evInfoConsumer(q);
+		
+		return new AppObj();
 	}
 	
 	

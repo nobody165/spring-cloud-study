@@ -25,11 +25,11 @@ spring:
       sampler:
         probability: 1
         
-#    rabbitmq:
-#      host: 172.16.3.131
-#      port: 5672
-#      username: rabbit
-#      password: passwd
+    rabbitmq:
+      host: 172.16.3.131
+      port: 5672
+      username: rabbit
+      password: passwd
     datasource:
         name: mic_db
         url: jdbc:mysql://172.16.3.131:3306/mic_db?useSSL=false&useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
@@ -67,7 +67,7 @@ spring:
 # mybatis_config
 mybatis:
     mapper-locations: classpath:mapper/**/*.xml
-    config-location: classpath:mybatis.xml
+#    config-location: classpath:mybatis.xml
 logging:
     config: classpath:log4j2.xml
 

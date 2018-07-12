@@ -4,7 +4,7 @@
       <console name="Console" target="SYSTEM_OUT">
         <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
       </console>
-    </appenders> 
+    </appenders>
     
     
     <Loggers>
@@ -13,8 +13,10 @@
 		<logger name="org.springframework" level="INFO" />
 		<logger name="org.apache.http" level="INFO" />		
 		<logger name="com.radlly" level="debug" />
+		<logger name="org.apache.ibatis" level="INFO" />
+		<logger name="org.apache.mybatis" level="INFO" />
     
-     <Root level="INFO">
+     <Root level="debug">
        <AppenderRef ref="Console"/>
      </Root>
    </Loggers>

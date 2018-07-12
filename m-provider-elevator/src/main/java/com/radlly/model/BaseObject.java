@@ -8,9 +8,7 @@ import lombok.Data;
 @Data
 public class BaseObject {
 	
-	private long uuid;
-	
-	private Object obj;
+	private long uuid;	
 	
 	/**
 	 * use for mysql insert

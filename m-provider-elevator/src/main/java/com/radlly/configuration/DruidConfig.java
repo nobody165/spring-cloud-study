@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +27,7 @@ public class DruidConfig {
 	private DatasourcePorperties datasourcePorperties;
 
 	@Bean
+	@Qualifier("druidDataSource")
 	public DataSource dataSource() {
 		DruidDataSource datasource = new DruidDataSource();
 		datasource.setUrl(datasourcePorperties.getUrl());
@@ -54,7 +56,7 @@ public class DruidConfig {
 		// initParameters.put("loginUsername", "druid");// 鐢ㄦ埛鍚�
 		// initParameters.put("loginPassword", "druid");// 瀵嗙爜
 		initParameters.put("resetEnable", "false");// 绂佺敤HTML椤甸潰涓婄殑鈥淩eset All鈥濆姛鑳�
-		initParameters.put("allow", "172.16.2.199"); // IP鐧藉悕鍗� (娌℃湁閰嶇疆鎴栬�呬负绌猴紝鍒欏厑璁告墍鏈夎闂�)
+		initParameters.put("allow", "172.16.3.4"); // IP鐧藉悕鍗� (娌℃湁閰嶇疆鎴栬�呬负绌猴紝鍒欏厑璁告墍鏈夎闂�)
 		// initParameters.put("deny", "192.168.20.38");// IP榛戝悕鍗�
 		// (瀛樺湪鍏卞悓鏃讹紝deny浼樺厛浜巃llow)
 		servletRegistrationBean.setInitParameters(initParameters);

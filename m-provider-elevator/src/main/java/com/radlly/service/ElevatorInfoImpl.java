@@ -1,27 +1,43 @@
 package com.radlly.service;
 
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.radlly.exception.RadllyException;
+import com.radlly.configuration.SnowFlakeIdFactory;
+import com.radlly.configuration.TaskExcutorConfiguration;
 import com.radlly.mapper.ElevatorMapper;
 import com.radlly.model.AppObj;
 import com.radlly.model.ElevatorInfo;
-import com.radlly.utils.JsonHelper;
-import com.radlly.utils.JsonValidator;
+
+import lombok.extern.log4j.Log4j2;
 
 @Service
+@Log4j2
 public class ElevatorInfoImpl implements IElevatorService{
-	private static Logger logger = LoggerFactory.getLogger(ElevatorInfoImpl.class);
-
 	
 	@Autowired
 	private ElevatorMapper elevatorMapper;
+	@Autowired 
+	@Qualifier("batchJdbcTemplate")
+	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private SnowFlakeIdFactory snowFlakeIdFactory;
 	
 	@Override
 	public AppObj save(ElevatorInfo elevatorInfo) {				
@@ -52,8 +68,37 @@ public class ElevatorInfoImpl implements IElevatorService{
 		return elevatorMapper.findUseForEvs(usefor,pageStart,pageEnd);
 	}
 
+	@Override
+	public void insertBatch(List<ElevatorInfo> evs) {
+		 long start = System.currentTimeMillis();
+		log.debug("start: "+start);
+		elevatorMapper.insertBatch(evs);
+		log.debug("cost: "+(System.currentTimeMillis()-start));
+	}
+	@Transactional()  
+	public void batchInsertJDBC(List<ElevatorInfo> evs) throws DataAccessException {  
+//		insert into ev_info (uuid,propertyCom, buildAddress, latitude, longitude, evCode, regCode, evOrder,brand,evType,createAt,del,obj)
+//	    values (#{uuid},#{propertyCom}, #{buildAddress}, #{latitude},#{longitude}, #{evCode}, #{regCode}, 
+//	      #{evOrder},#{brand},#{evType},#{createAt},#{del},CONVERT(#{jsonObj} using utf8mb4))GeomFromText(''{1}'')
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    StringBuffer sqlbuf = new StringBuffer()  
+	        .append("insert into ev_info (uuid,propertyCom, buildAddress, evCode, regCode, evOrder,brand,evType,createAt,del,obj) values ");  
+	    MessageFormat form = new MessageFormat("(''{0}'', ''{1}'', ''{2}'', ''{3}'', ''{4}'', ''{5}'', ''{6}'', ''{7}'', ''{8}'', ''{9}'',"
+	    		+ "CONVERT( (''{10}'') using utf8mb4)),");  
+	    for (ElevatorInfo ev : evs) {  
+	        Object[] args = {String.valueOf(snowFlakeIdFactory.nextId()), ev.getPropertyCom(), ev.getBuildAddress(), 
+	        		ev.getEvCode(), ev.getRegCode(), ev.getEvOrder(),ev.getBrand(),ev.getEvType(),
+	        		simpleDateFormat.format(ev.getCreateAt()),ev.getDel(),ev.getJsonObj()};  
+	        sqlbuf.append(form.format(args));  
+	    }  
+	    String sql = sqlbuf.toString();  
+	    sql = sql.substring(0, sql.length()-1);  
+	    long start = System.currentTimeMillis();
+	    jdbcTemplate.update(sql);  
+	    log.debug("cost: "+(System.currentTimeMillis()-start));
+	}
 	
-	
+
 	
 
 }

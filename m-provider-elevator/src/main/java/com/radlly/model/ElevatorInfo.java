@@ -27,25 +27,28 @@ public class ElevatorInfo extends BaseObject{
 	private String evOrder;//梯号
 	private String brand;// 品牌
 	private String evType;// 类型(直梯，扶梯，液压梯)
-	private Integer del = DEL_FALSE;	
+	private Integer del = DEL_FALSE;
+	private Date createAt;
+	
+public	enum  Evtype{
+		VERTICAL("直梯"),UNDIRECT("杂物梯"),HYDRAULIC("液压梯"),ESCALATOR("扶梯");  
+	    // 成员变量  
+	    private String name;  
+	    // 构造方法  
+	    private Evtype(String name) {  
+	        this.name = name;  
+	    }  
+	    
+	    // get set 方法  
+	    public String getName() {  
+	        return name;  
+	    }  
+	    public void setName(String name) {  
+	        this.name = name;  
+	    }  
+	    
+	}
 }
 
 
-enum  Evtype{
-	VERTICAL("直梯"),UNDIRECT("杂物梯"),HYDRAULIC("液压梯"),ESCALATOR("扶梯");  
-    // 成员变量  
-    private String name;  
-    // 构造方法  
-    private Evtype(String name) {  
-        this.name = name;  
-    }  
-    
-    // get set 方法  
-    public String getName() {  
-        return name;  
-    }  
-    public void setName(String name) {  
-        this.name = name;  
-    }  
-    
-}
+

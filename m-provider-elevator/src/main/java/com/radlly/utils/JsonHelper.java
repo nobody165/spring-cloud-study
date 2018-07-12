@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -86,16 +85,16 @@ public class JsonHelper {
 		return map.get(key);
 	}
 	/**
-	 * 
-	 * @param json can not be null but ""
-	 * @param key can not be null and ""
-	 * @param value can not be null and ""
+	 * append value to json string
+	 * @param key
+	 * @param value
+	 * @return json string
 	 */
-	public String addJsonValue(String json,String key,Object value) {
-		if(null==json)throw new RadllyException(" param key can not be null!");
+	public String appendJsonValueStr(String json,String key,Object value) {
+//		if(null==key)throw new RadllyException(" param key can not be null!");
 		if(StringUtils.isBlank(key))throw new RadllyException(" param key can not be null!");
-		if(null==value)throw new RadllyException(" param value can not be null!");
-		Map<String,Object> map ;
+		if(null==value)throw new RadllyException("param value can not be null!");
+		Map<String,Object> map;
 		if(StringUtils.isBlank(json)) {
 			map = new HashMap<String,Object>();			
 		}else {
@@ -104,20 +103,31 @@ public class JsonHelper {
 		map.put(key, value);
 		return mapToJson(map);
 	}
-	
-	public String createJsonValue(String key,Object value) {
-		if(StringUtils.isBlank(key))throw new RadllyException(" param key can not be null!");
-		if(null==value)throw new RadllyException(" param value can not be null!");
-		Map<String,Object> map = new HashMap<String,Object>();			
-		map.put(key, value);
-		return  mapToJson(map);
+	/**
+	 * append value to json string
+	 * @param key
+	 * @param value
+	 * @return json string
+	 */
+	public String appendJsonValueStr(String key,Object value) {
+//		if(null==key)throw new RadllyException(" param key can not be null!");
+		return this.appendJsonValueStr(null, key, value);
 	}
+	
+//	public String createJsonValue(String key,Object value) {
+//		if(StringUtils.isBlank(key))throw new RadllyException(" param key can not be null!");
+//		if(null==value)throw new RadllyException(" param value can not be null!");
+//		Map<String,Object> map = new HashMap<String,Object>();			
+//		map.put(key, value);
+//		return  mapToJson(map);
+//	}
 	
 	public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
 		 String json = "{\"id\":1333,\"name\":\"王雪慧\",\"desc\":\"做错事 :0\",\"age\":0}";
 		 JsonHelper jsonHelper = new JsonHelper();
-		 int j =  (int) jsonHelper.getJsonValue(json, null);
-	     logger.debug(String.valueOf(j));
+//		 int j =  (int) jsonHelper.getJsonValue(json, null);
+//	     logger.debug(String.valueOf(j));
+		 jsonHelper.jsonToMap(json);
 	     
 	}
 }
