@@ -1,0 +1,21 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: spring-cloud-study-config-server-encrypt
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/nobody165/config-repo      # 配置Git仓库的地址            
+          username:                                 # Git仓库的账号
+          password:                                 # Git仓库的密码
+          clone-on-start: true
+
+logging:
+  level:
+    org.springframework.cloud: DEBUG
+    org.springframework.boot: DEBUG
+
+
+            
