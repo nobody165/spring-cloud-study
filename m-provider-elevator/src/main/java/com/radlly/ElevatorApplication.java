@@ -37,14 +37,14 @@ public class ElevatorApplication {
 
 	       }
 	 }
-		@Bean  
-	    public static PropertySourcesPlaceholderConfigurer properties() {  
-	        PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();  
-	        YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();  
-	        yaml.setResources(new ClassPathResource("evAttributes.yml"));//File引入  
-	        configurer.setProperties(yaml.getObject());  
-	        return configurer;  
-	    } 
+//		@Bean  
+//	    public static PropertySourcesPlaceholderConfigurer properties() {  
+//	        PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();  
+//	        YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();  
+//	        yaml.setResources(new ClassPathResource("evAttributes.yml"));//File引入  
+//	        configurer.setProperties(yaml.getObject());  
+//	        return configurer;  
+//	    } 
 
 		
 		@Bean  

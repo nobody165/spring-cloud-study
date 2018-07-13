@@ -34,8 +34,8 @@ public class BaiduLocationUtil {
 	private BaiduKeyHolder keyholder;
 	
 	public Location getLngAndLat(String address) {
-//		return this.getLngAndLat(address, keyholder.getAvailableKey());
-		return this.getLngAndLat(address, "42b8ececa9cd6fe72ae4cddd77c0da5d");
+		return this.getLngAndLat(address, keyholder.getAvailableKey());
+//		return this.getLngAndLat(address, "42b8ececa9cd6fe72ae4cddd77c0da5d");
 	}
 	
     public Location getLngAndLat(String address,String key){  

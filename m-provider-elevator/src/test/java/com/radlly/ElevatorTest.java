@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.radlly.configuration.TaskExcutorConfiguration;
 import com.radlly.model.ElevatorInfo;
 import com.radlly.service.IElevatorService;
 import com.radlly.taskExcutor.EvInfoInsert;
@@ -33,8 +30,6 @@ public class ElevatorTest {
 	private JsonHelper jsonHelper;
 	@Autowired
 	private EvInfoInsert evInfoInsert;	 
-	@Autowired
-	private TaskExcutorConfiguration taskExcutorConfiguration;
 	// @Test
 	public void TestSave() throws IOException {
 		ElevatorInfo info = new ElevatorInfo();
@@ -63,7 +58,6 @@ public class ElevatorTest {
 //		Thread t2=new Thread(evConsumer);
 //		t1.start();
 //		t2.start();
-		int evInfoTag =5;//0:开始生产   1:开始消费 2:生产结束 3:消费结束
 		
 		
 		evInfoInsert.evInfoProducer(q,50000);

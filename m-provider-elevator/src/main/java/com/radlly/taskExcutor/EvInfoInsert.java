@@ -28,7 +28,6 @@ public class EvInfoInsert {
 		for (int i = 0; i < 50000; i++) {
 			log.debug("=======:" + i);
 		}
-
 	}
 
 	@Async

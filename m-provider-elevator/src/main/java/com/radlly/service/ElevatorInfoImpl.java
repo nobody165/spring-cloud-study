@@ -2,24 +2,17 @@ package com.radlly.service;
 
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.radlly.configuration.SnowFlakeIdFactory;
-import com.radlly.configuration.TaskExcutorConfiguration;
+import com.radlly.exception.RadllyException;
 import com.radlly.mapper.ElevatorMapper;
 import com.radlly.model.AppObj;
 import com.radlly.model.ElevatorInfo;
@@ -45,8 +38,11 @@ public class ElevatorInfoImpl implements IElevatorService{
 
 		int result = elevatorMapper.insert(elevatorInfo);
 		
-		if(1==result)new AppObj(AppObj.SSUCCESS);
-		return new AppObj("save faild, please contact with system manager!");
+		if(1!=result) {
+			log.debug("couldn't save into database, please check connection!");
+			throw new RadllyException("save elevator faild, please try again later!");			
+		}
+		return new AppObj(AppObj.SSUCCESS);
 	}
 
 	@Override
