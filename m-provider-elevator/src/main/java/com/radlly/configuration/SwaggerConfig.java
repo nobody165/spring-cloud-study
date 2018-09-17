@@ -37,16 +37,16 @@ public class SwaggerConfig {
 	  public Docket testApi()
 	  {
 	    ParameterBuilder parameterBuilder = new ParameterBuilder();
-	    parameterBuilder.name("tokenStr")
-	      .description("tokenStr")
-	      .modelRef(new ModelRef("string"))
-	      .parameterType("header")
-	      .required(false)
-	      .build();
-	    List list = Lists.newArrayList(new Parameter[] { parameterBuilder.build() });
+//	    parameterBuilder.name("tokenStr")
+//	      .description("tokenStr")
+//	      .modelRef(new ModelRef("string"))
+//	      .parameterType("header")
+//	      .required(false)
+//	      .build();
+//	    List list = Lists.newArrayList(new Parameter[] { parameterBuilder.build() });
 
 	    return new Docket(DocumentationType.SWAGGER_2)
-	      .globalOperationParameters(list)
+//	      .globalOperationParameters(list)
 	      .apiInfo(apiInfo())
 	      .select()
 	      .apis(RequestHandlerSelectors.basePackage(this.swaggerBasePackage))

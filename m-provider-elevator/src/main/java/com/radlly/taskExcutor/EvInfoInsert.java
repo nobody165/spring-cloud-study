@@ -50,7 +50,7 @@ public class EvInfoInsert {
 			info.setPropertyCom("银泰物业");
 			info.setRegCode("1111111111");
 			info.setCreateAt(new Date());
-			info.setJsonObj(str);
+			info.setObj(str);
 			evs.add(info);
 			if (i % 1000 == 0) {
 				log.debug("add to queue" + evs.size());

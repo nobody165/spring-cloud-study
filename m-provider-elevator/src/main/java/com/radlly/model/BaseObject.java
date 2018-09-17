@@ -2,18 +2,14 @@ package com.radlly.model;
 
 import org.springframework.stereotype.Component;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Component
 @Data
 public class BaseObject {
-	
+	@ApiModelProperty(hidden=true)
 	private long uuid;	
-	
-	/**
-	 * use for mysql insert
-	 */
-	private String jsonObj;
 	
 	private int pageStart = 0;
 	

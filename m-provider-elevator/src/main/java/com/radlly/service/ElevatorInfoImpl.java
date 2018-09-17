@@ -2,6 +2,7 @@ package com.radlly.service;
 
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,15 @@ import com.radlly.exception.RadllyException;
 import com.radlly.mapper.ElevatorMapper;
 import com.radlly.model.AppObj;
 import com.radlly.model.ElevatorInfo;
+import com.radlly.utils.JsonHelper;
 
 import lombok.extern.log4j.Log4j2;
 
 @Service
 @Log4j2
 public class ElevatorInfoImpl implements IElevatorService{
-	
+	@Autowired
+	private JsonHelper jsonHelper;
 	@Autowired
 	private ElevatorMapper elevatorMapper;
 	@Autowired 
@@ -35,7 +38,9 @@ public class ElevatorInfoImpl implements IElevatorService{
 	@Override
 	public AppObj save(ElevatorInfo elevatorInfo) {				
 			
-
+		elevatorInfo.setCreateAt(new Date());
+		if(null!=elevatorInfo.getObjArrs())
+		elevatorInfo.setObj(jsonHelper.beanToJson(elevatorInfo.getObjArrs()));
 		int result = elevatorMapper.insert(elevatorInfo);
 		
 		if(1!=result) {
@@ -84,7 +89,7 @@ public class ElevatorInfoImpl implements IElevatorService{
 	    for (ElevatorInfo ev : evs) {  
 	        Object[] args = {String.valueOf(snowFlakeIdFactory.nextId()), ev.getPropertyCom(), ev.getBuildAddress(), 
 	        		ev.getEvCode(), ev.getRegCode(), ev.getEvOrder(),ev.getBrand(),ev.getEvType(),
-	        		simpleDateFormat.format(ev.getCreateAt()),ev.getDel(),ev.getJsonObj()};  
+	        		simpleDateFormat.format(ev.getCreateAt()),ev.getDel(),ev.getObj()};  
 	        sqlbuf.append(form.format(args));  
 	    }  
 	    String sql = sqlbuf.toString();  

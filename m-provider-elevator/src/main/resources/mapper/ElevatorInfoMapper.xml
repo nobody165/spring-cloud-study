@@ -30,7 +30,7 @@
    <![CDATA[
     insert into ev_info (uuid,propertyCom, buildAddress, latitude, longitude, evCode, regCode, evOrder,brand,evType,createAt,del,obj)
     values (#{uuid},#{propertyCom}, #{buildAddress}, #{latitude},#{longitude}, #{evCode}, #{regCode}, 
-      #{evOrder},#{brand},#{evType},#{createAt},#{del},CONVERT(#{jsonObj} using utf8mb4))
+      #{evOrder},#{brand},#{evType},#{createAt},#{del},CONVERT(#{obj} using utf8mb4))
        ]]>
   </insert>
   
@@ -38,7 +38,7 @@
      insert into ev_info (uuid,propertyCom, buildAddress, latitude, longitude, evCode, regCode, evOrder,brand,evType,createAt,del,obj) values 
         <foreach collection ="list" item="item" index= "index" separator =",">
            (#{item.uuid},#{item.propertyCom}, #{item.buildAddress}, #{item.latitude},#{item.longitude}, #{item.evCode}, #{item.regCode}, 
- 		 #{item.evOrder},#{item.brand},#{item.evType},#{item.createAt},#{item.del},CONVERT(#{item.jsonObj} using utf8mb4))
+ 		 #{item.evOrder},#{item.brand},#{item.evType},#{item.createAt},#{item.del},CONVERT(#{item.obj} using utf8mb4))
         </foreach >
    </insert>
   

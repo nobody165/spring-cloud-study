@@ -1,9 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
   <configuration status="WARN">	
+  <Properties>
+        <Property name="filepath">F:\myworkspace\logs</Property>
+        <Property name="pattern">%d{yyyy-MM-dd HH:mm:ss,SSS} %5p %c{1}:%L - %m%n</Property>
+    </Properties>
     <appenders>
       <console name="Console" target="SYSTEM_OUT">
-        <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+       <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
       </console>
+      
+     <RollingFile name="RollingFileWarn" fileName="${filepath}/warn.log"
+                     filePattern="${filepath}/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log">
+            <Filters>
+                <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+           <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
+            <DefaultRolloverStrategy max="20"/>
+      </RollingFile>
+ 
+      <RollingFile name="RollingFileError" fileName="${filepath}/error.log"
+                     filePattern="${filepath}/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="ERROR"/>
+           <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+      </RollingFile>
+       <RollingRandomAccessFile name="rolling_file"
+                     fileName="${filepath}/rolling.log" 
+                     filePattern="${filepath}/rolling.%d{yyyy-MM-dd}.log">           
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+               <!--  <TimeBasedTriggeringPolicy interval="1"/>-->
+               <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+        </RollingRandomAccessFile>
     </appenders>
     
     
@@ -18,6 +64,9 @@
     
      <Root level="debug">
        <AppenderRef ref="Console"/>
+       <AppenderRef ref="rolling_file"/>
+       <AppenderRef ref="RollingFileError"/>
+       <AppenderRef ref="RollingFileWarn"/>
      </Root>
    </Loggers>
    

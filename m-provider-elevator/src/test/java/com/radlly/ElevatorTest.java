@@ -41,8 +41,8 @@ public class ElevatorTest {
 		info.setEvType("直梯");
 		info.setPropertyCom("长虹物业");
 		info.setRegCode("444432432342354353636");
-		info.setJsonObj(jsonHelper.appendJsonValueStr("usefor", "工业用梯"));
-		info.setJsonObj(jsonHelper.appendJsonValueStr(info.getJsonObj(), "maxLoad", "100"));
+		info.setObj(jsonHelper.appendJsonValueStr("usefor", "工业用梯"));
+		info.setObj(jsonHelper.appendJsonValueStr(info.getObj(), "maxLoad", "100"));
 		info.setCreateAt(new Date());
 		info.setBuildAddress("四川省成都市武侯区长虹科技大厦");
 		elevatorService.save(info);
